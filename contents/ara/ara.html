@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ARA Prototype - Landing</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="../../assets/styles.css" />
+	</head>
+	<body>
+		<div class="shell">
+			<aside class="side">
+				<div class="brand">
+					<div class="brand-logo">A</div>
+					<div>
+						<strong>ARA</strong>
+						<div class="muted" style="font-size: 12px">
+							Shared CSS prototype
+						</div>
+					</div>
+				</div>
+				<div class="nav">
+					<a class="active" href="../../index.html"
+						>Index <span>01</span></a
+					>
+					<a href="./user-dashboard.html"
+						>UserDashboard <span>02</span></a
+					>
+					<a href="./admin-dashboard.html"
+						>AdminDashboard <span>03</span></a
+					>
+					<a href="./project-review.html"
+						>ProjectReview <span>04</span></a
+					>
+				</div>
+			</aside>
+			<main class="content">
+				<div class="page-header">
+					<div>
+						<div class="eyebrow">Landing component</div>
+						<h1>Index</h1>
+						<div class="muted">
+							This page recreates the landing structure centered
+							on the “Future of Audio Collaboration” hero,
+							waveform demo card, and three feature
+							blocks.[file:119]
+						</div>
+					</div>
+					<div class="actions">
+						<a class="btn" href="./user-dashboard.html">Open app</a
+						><a class="btn primary" href="./project-review.html"
+							>Open review</a
+						>
+					</div>
+				</div>
+				<div class="card hero">
+					<div>
+						<div class="badge">Trusted by leading audio teams</div>
+						<div class="headline">
+							The Future of Audio Collaboration
+						</div>
+						<p class="muted">
+							The attached landing page highlights a featured
+							waveform player, timestamped comments, client review
+							links, and version control as its core
+							message.[file:119]
+						</p>
+					</div>
+					<div class="hero-art">
+						<div class="track-card">
+							<div
+								class="row"
+								style="justify-content: space-between"
+							>
+								<div>
+									<strong
+										>Summer Vibes – Final Mix.wav</strong
+									>
+									<div class="muted">
+										3:48 • 48kHz / 24-bit
+									</div>
+								</div>
+								<div class="badge">Demo track</div>
+							</div>
+							<div class="wave" id="landingWave"></div>
+							<div class="progress">
+								<span
+									id="landingFill"
+									style="width: 24%"
+								></span>
+							</div>
+							<div
+								class="row"
+								style="
+									justify-content: space-between;
+									margin-top: 12px;
+								"
+							>
+								<div class="actions">
+									<button class="circle">&#9664;</button
+									><button
+										class="circle play"
+										id="landingPlay"
+									>
+										&#9654;</button
+									><button class="circle">
+										&#9654;&#9654;
+									</button>
+								</div>
+								<strong id="landingTime">00:54 / 03:48</strong>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid-3 section-gap">
+					<div class="card feature">
+						<h3>Timestamped Comments</h3>
+						<p class="muted">
+							Click anywhere on the waveform to leave a note so
+							the team knows the exact moment being
+							referenced.[file:119]
+						</p>
+					</div>
+					<div class="card feature">
+						<h3>Client Review Links</h3>
+						<p class="muted">
+							Send a secure link so clients can listen and comment
+							without creating an account.[file:119]
+						</p>
+					</div>
+					<div class="card feature">
+						<h3>Version Control</h3>
+						<p class="muted">
+							Stack new versions on top of old ones while keeping
+							earlier discussion attached.[file:119]
+						</p>
+					</div>
+				</div>
+			</main>
+		</div>
+		<script src="../../assets/app.js"></script>
+		<script>
+			fillWave(document.getElementById("landingWave"), 52);
+			let landingPlaying = false,
+				landingPos = 24;
+			document.getElementById("landingPlay").onclick = () => {
+				landingPlaying = !landingPlaying;
+				document.getElementById("landingPlay").innerHTML =
+					landingPlaying ? "&#10074;&#10074;" : "&#9654;";
+			};
+			setInterval(() => {
+				if (!landingPlaying) return;
+				landingPos = (landingPos + 1.2) % 100;
+				document.getElementById("landingFill").style.width =
+					landingPos + "%";
+				document.getElementById("landingTime").textContent =
+					`0${Math.floor(landingPos / 20)}:${String((landingPos * 2) % 60).padStart(2, "0")} / 03:48`;
+			}, 700);
+		</script>
+	</body>
+</html>
