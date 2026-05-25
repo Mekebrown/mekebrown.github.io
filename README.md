@@ -4,10 +4,10 @@ This version is split into multiple HTML files that all share a separate stylesh
 
 Files:
 
-- `index.html` — landing view based on `Index.tsx`
-- `user-dashboard.html` — dashboard view based on `UserDashboard.tsx`
-- `admin-dashboard.html` — admin view based on `AdminDashboard.tsx`
-- `project-review.html` — review view based on `ProjectReview.tsx`
+- `index.html` — landing view based on `Index`
+- `user-dashboard.html` — dashboard view based on `UserDashboard`
+- `admin-dashboard.html` — admin view based on `AdminDashboard`
+- `project-review.html` — review view based on `ProjectReview`
 - `assets/styles.css` — shared CSS for all pages
 - `assets/app.js` — shared helpers for modal and waveform setup
 
