@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link rel="stylesheet" href="../../assets/styles.css" />
+		<title>ARA - Audio Review Application</title>
+	</head>
+	<body>
+		<!-- Navigation -->
+		<nav>
+			<div class="nav-container">
+				<div class="logo">🎵 ARA</div>
+				<ul class="nav-links">
+					<li><a href="#features">Features</a></li>
+					<li><a href="#use-cases">Use Cases</a></li>
+					<li><a href="#how-it-works">How It Works</a></li>
+					<li><a href="#pricing">Pricing</a></li>
+				</ul>
+				<button class="cta-button" onclick="scrollToSection('contact')">
+					Get Started
+				</button>
+			</div>
+		</nav>
+
+		<!-- Hero Section -->
+		<section class="hero">
+			<div class="hero-content">
+				<h1>Professional Audio Review Made Simple</h1>
+				<p>
+					Collaborate seamlessly with producers and clients. Review,
+					comment, and approve audio projects in real-time.
+				</p>
+				<div class="hero-cta">
+					<button class="primary" onclick="scrollToSection('demo')">
+						View Demo
+					</button>
+					<button
+						class="secondary"
+						onclick="scrollToSection('features')"
+					>
+						Learn More
+					</button>
+				</div>
+			</div>
+		</section>
+		<!-- Demo Section -->
+		<section class="demo-section" id="demo">
+			<div class="demo-container">
+				<h2 class="section-title">Interactive Audio Review</h2>
+
+				<div class="audio-player-demo">
+					<h3 style="margin-bottom: 1rem">
+						Sample Project: "Summer Vibes - Main Mix"
+					</h3>
+
+					<div class="waveform" id="waveform"></div>
+
+					<div class="player-controls">
+						<button
+							class="play-button"
+							id="playButton"
+							onclick="togglePlayback()"
+						>
+							▶
+						</button>
+						<span class="time-display"
+							><span id="currentTime">0:00</span> /
+							<span id="duration">2:30</span></span
+						>
+						<div class="progress-bar" onclick="seekAudio(event)">
+							<div
+								class="progress-bar-fill"
+								id="progressFill"
+							></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="comments-demo">
+					<h3 style="margin-bottom: 1rem">Comments & Feedback</h3>
+					<input
+						type="text"
+						class="comment-input"
+						id="commentInput"
+						placeholder="Add your comment..."
+						onkeypress="handleCommentKeyPress(event)"
+					/>
+
+					<div class="comments-list" id="commentsList"></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Features Section -->
+		<section class="features" id="features">
+			<div class="demo-container">
+				<h2 class="section-title">Powerful Features</h2>
+
+				<div class="features-grid">
+					<div class="feature-card">
+						<div class="feature-icon">🎵</div>
+						<h3>HD Audio Playback</h3>
+						<p>
+							Crystal-clear audio playback with interactive
+							waveform visualization and timeline scrubbing.
+						</p>
+					</div>
+
+					<div class="feature-card">
+						<div class="feature-icon">💬</div>
+						<h3>Real-time Comments</h3>
+						<p>
+							Leave timestamped comments on specific sections of
+							audio for precise feedback.
+						</p>
+					</div>
+
+					<div class="feature-card">
+						<div class="feature-icon">👥</div>
+						<h3>Team Collaboration</h3>
+						<p>
+							Work together with producers, engineers, and clients
+							on the same project.
+						</p>
+					</div>
+
+					<div class="feature-card">
+						<div class="feature-icon">📁</div>
+						<h3>Project Management</h3>
+						<p>
+							Organize projects into folders and manage multiple
+							revisions with ease.
+						</p>
+					</div>
+
+					<div class="feature-card">
+						<div class="feature-icon">🔔</div>
+						<h3>Smart Notifications</h3>
+						<p>
+							Get instant notifications when team members comment
+							or approve your work.
+						</p>
+					</div>
+
+					<div class="feature-card">
+						<div class="feature-icon">🛡️</div>
+						<h3>Secure Access</h3>
+						<p>
+							Admin controls and user authentication ensure your
+							projects stay private and secure.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Use Cases Section -->
+		<section class="use-cases" id="use-cases">
+			<div class="demo-container">
+				<h2 class="section-title">Who Uses ARA?</h2>
+
+				<div class="use-cases-grid">
+					<div class="use-case-card">
+						<div class="use-case-icon">🎧</div>
+						<h3>Music Producers</h3>
+						<p>
+							Share mixes with clients and get detailed feedback
+							in one centralized platform.
+						</p>
+					</div>
+
+					<div class="use-case-card">
+						<div class="use-case-icon">🎙️</div>
+						<h3>Podcast Studios</h3>
+						<p>
+							Manage episode reviews and approvals with your
+							editorial team efficiently.
+						</p>
+					</div>
+
+					<div class="use-case-card">
+						<div class="use-case-icon">🎬</div>
+						<h3>Audio Engineers</h3>
+						<p>
+							Iterate on mixes with clear direction from producers
+							and clients.
+						</p>
+					</div>
+
+					<div class="use-case-card">
+						<div class="use-case-icon">🎯</div>
+						<h3>Content Creators</h3>
+						<p>
+							Get professional feedback on your audio content
+							before publishing.
+						</p>
+					</div>
+
+					<div class="use-case-card">
+						<div class="use-case-icon">📻</div>
+						<h3>Radio Stations</h3>
+						<p>
+							Manage ad production and approve audio spots from
+							multiple vendors.
+						</p>
+					</div>
+
+					<div class="use-case-card">
+						<div class="use-case-icon">🎓</div>
+						<h3>Audio Schools</h3>
+						<p>
+							Instructors can review student projects with
+							detailed timestamped comments.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- How It Works -->
+		<section class="how-it-works" id="how-it-works">
+			<div class="demo-container">
+				<h2 class="section-title">How It Works</h2>
+
+				<div class="steps">
+					<div class="step">
+						<div class="step-number">1</div>
+						<h3>Upload Your Audio</h3>
+						<p>
+							Upload your audio files and organize them into
+							projects and folders.
+						</p>
+					</div>
+
+					<div class="step">
+						<div class="step-number">2</div>
+						<h3>Share with Team</h3>
+						<p>
+							Invite collaborators and set permissions for each
+							project.
+						</p>
+					</div>
+
+					<div class="step">
+						<div class="step-number">3</div>
+						<h3>Get Feedback</h3>
+						<p>
+							Team members leave timestamped comments and approve
+							revisions.
+						</p>
+					</div>
+
+					<div class="step">
+						<div class="step-number">4</div>
+						<h3>Iterate & Deliver</h3>
+						<p>
+							Make improvements based on feedback and deliver
+							final versions.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Pricing Section -->
+		<section class="pricing" id="pricing">
+			<div class="demo-container">
+				<h2 class="section-title">Simple, Transparent Pricing</h2>
+
+				<div class="pricing-grid">
+					<div class="pricing-card">
+						<div class="pricing-title">Starter</div>
+						<div class="pricing-subtitle">
+							Perfect for individuals
+						</div>
+						<div class="pricing-price">$9</div>
+						<div class="pricing-period">per month</div>
+						<ul class="pricing-features">
+							<li>Up to 5 projects</li>
+							<li>2GB storage</li>
+							<li>Basic comments</li>
+							<li>Email support</li>
+						</ul>
+						<button class="pricing-button">Get Started</button>
+					</div>
+
+					<div class="pricing-card featured">
+						<div class="pricing-badge">POPULAR</div>
+						<div class="pricing-title">Professional</div>
+						<div class="pricing-subtitle">For growing teams</div>
+						<div class="pricing-price">$29</div>
+						<div class="pricing-period">per month</div>
+						<ul class="pricing-features">
+							<li>Unlimited projects</li>
+							<li>100GB storage</li>
+							<li>Advanced comments</li>
+							<li>Team collaboration</li>
+							<li>Priority support</li>
+						</ul>
+						<button class="pricing-button">Start Free Trial</button>
+					</div>
+
+					<div class="pricing-card">
+						<div class="pricing-title">Enterprise</div>
+						<div class="pricing-subtitle">
+							For large organizations
+						</div>
+						<div class="pricing-price">Custom</div>
+						<div class="pricing-period">contact sales</div>
+						<ul class="pricing-features">
+							<li>Everything in Pro</li>
+							<li>Unlimited storage</li>
+							<li>Advanced admin controls</li>
+							<li>API access</li>
+							<li>Dedicated support</li>
+						</ul>
+						<button class="pricing-button">Contact Sales</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Final CTA -->
+		<section class="cta-final" id="contact">
+			<div class="demo-container">
+				<h2>Ready to Simplify Your Audio Reviews?</h2>
+				<p>Join hundreds of creators and teams already using ARA</p>
+				<button
+					onclick="
+						alert(
+							'Demo: Starting your free trial!\\n\\nIn the real app, you would be taken to sign up page.',
+						)
+					"
+				>
+					Start Your Free Trial
+				</button>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer>
+			<div class="footer-container">
+				<div class="footer-section">
+					<h4>Product</h4>
+					<ul>
+						<li><a href="#features">Features</a></li>
+						<li><a href="#pricing">Pricing</a></li>
+						<li><a href="#how-it-works">How It Works</a></li>
+					</ul>
+				</div>
+
+				<div class="footer-section">
+					<h4>Company</h4>
+					<ul>
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">Blog</a></li>
+						<li><a href="#">Careers</a></li>
+					</ul>
+				</div>
+
+				<div class="footer-section">
+					<h4>Support</h4>
+					<ul>
+						<li><a href="#">Help Center</a></li>
+						<li><a href="#">Contact</a></li>
+						<li><a href="#">Status</a></li>
+					</ul>
+				</div>
+
+				<div class="footer-section">
+					<h4>Legal</h4>
+					<ul>
+						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="#">Terms of Service</a></li>
+						<li><a href="#">Cookie Settings</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="footer-bottom">
+				<p>
+					&copy; 2024 ARA - Audio Review Application. All rights
+					reserved.
+				</p>
+			</div>
+		</footer>
+
+		<script>
+			// Audio player demo
+			let isPlaying = false;
+			let currentTime = 0;
+			const DEMO_DURATION = 150; // 2:30 in seconds
+			const WAVEFORM_BARS = 60;
+			let animationId;
+
+			// Generate demo waveform
+			function generateWaveform() {
+				const waveformContainer = document.getElementById("waveform");
+				waveformContainer.innerHTML = "";
+
+				for (let i = 0; i < WAVEFORM_BARS; i++) {
+					const bar = document.createElement("div");
+					bar.className = "waveform-bar";
+					const height = Math.random() * 80 + 20;
+					bar.style.height = height + "%";
+					bar.onclick = () => seekToBar(i);
+					waveformContainer.appendChild(bar);
+				}
+			}
+
+			function togglePlayback() {
+				isPlaying = !isPlaying;
+				const button = document.getElementById("playButton");
+				button.textContent = isPlaying ? "⏸" : "▶";
+
+				if (isPlaying) {
+					playAudio();
+				} else {
+					cancelAnimationFrame(animationId);
+				}
+			}
+
+			function playAudio() {
+				const updateTime = () => {
+					if (isPlaying) {
+						currentTime += 0.05;
+
+						if (currentTime >= DEMO_DURATION) {
+							currentTime = DEMO_DURATION;
+							isPlaying = false;
+							document.getElementById("playButton").textContent =
+								"▶";
+						}
+
+						updateDisplay();
+						animationId = requestAnimationFrame(updateTime);
+					}
+				};
+				updateTime();
+			}
+
+			function seekAudio(event) {
+				const progressBar = event.currentTarget;
+				const rect = progressBar.getBoundingClientRect();
+				const percent = (event.clientX - rect.left) / rect.width;
+				currentTime = percent * DEMO_DURATION;
+				updateDisplay();
+			}
+
+			function seekToBar(index) {
+				currentTime = (index / WAVEFORM_BARS) * DEMO_DURATION;
+				updateDisplay();
+			}
+
+			function updateDisplay() {
+				const minutes = Math.floor(currentTime / 60);
+				const seconds = Math.floor(currentTime % 60);
+				document.getElementById("currentTime").textContent =
+					`${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+				const percent = (currentTime / DEMO_DURATION) * 100;
+				document.getElementById("progressFill").style.width =
+					percent + "%";
+			}
+
+			// Comments demo
+			const demoComments = [
+				{
+					name: "Sarah Miller",
+					initials: "SM",
+					time: "10:45 AM",
+					text: "Love the clarity on the vocals! Just a bit more reverb on the chorus?",
+				},
+				{
+					name: "Alex Johnson",
+					initials: "AJ",
+					time: "11:23 AM",
+					text: "The bass feels perfect now. Ready to approve this version!",
+				},
+				{
+					name: "Jordan Lee",
+					initials: "JL",
+					time: "12:05 PM",
+					text: "Can we try reducing the snare level by 2dB? Otherwise sounds great!",
+				},
+			];
+
+			function loadDemoComments() {
+				const commentsList = document.getElementById("commentsList");
+				demoComments.forEach((comment) => {
+					addCommentToUI(
+						comment.name,
+						comment.text,
+						comment.time,
+						comment.initials,
+					);
+				});
+			}
+
+			function handleCommentKeyPress(event) {
+				if (event.key === "Enter" && event.target.value.trim()) {
+					const now = new Date();
+					const time = now.toLocaleTimeString([], {
+						hour: "2-digit",
+						minute: "2-digit",
+					});
+					const initials = "YOU";
+
+					addCommentToUI("You", event.target.value, time, "YOU");
+					event.target.value = "";
+				}
+			}
+
+			function addCommentToUI(name, text, time, initials) {
+				const commentsList = document.getElementById("commentsList");
+				const commentDiv = document.createElement("div");
+				commentDiv.className = "comment-item";
+
+				commentDiv.innerHTML = `
+                <div class="comment-header">
+                    <div class="avatar">${initials}</div>
+                    <div class="comment-meta">
+                        <div class="comment-name">${name}</div>
+                        <div class="comment-time">${time}</div>
+                    </div>
+                </div>
+                <div class="comment-text">${text}</div>
+            `;
+
+				commentsList.appendChild(commentDiv);
+				commentsList.scrollTop = commentsList.scrollHeight;
+			}
+
+			function scrollToSection(id) {
+				const element = document.getElementById(id);
+				if (element) {
+					element.scrollIntoView({ behavior: "smooth" });
+				}
+			}
+
+			// Initialize
+			generateWaveform();
+			loadDemoComments();
+			updateDisplay();
+		</script>
+	</body>
+</html>
