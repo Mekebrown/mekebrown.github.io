@@ -9,39 +9,68 @@
 	</head>
 	<body>
 		<!-- Navigation -->
-		<nav>
-			<div class="nav-container">
+		<header>
+			<nav>
 				<div class="logo">🎵 ARA</div>
 				<ul class="nav-links">
 					<li><a href="#features">Features</a></li>
 					<li><a href="#use-cases">Use Cases</a></li>
 					<li><a href="#how-it-works">How It Works</a></li>
 					<li><a href="#pricing">Pricing</a></li>
+					<li>
+						<a
+							href="#"
+							class="cta"
+							onclick="scrollToSection('contact')"
+							>Get Started</a
+						>
+					</li>
 				</ul>
-				<button class="cta-button" onclick="scrollToSection('contact')">
-					Get Started
-				</button>
-			</div>
-		</nav>
+				<button class="menu-toggle" id="menuToggle">☰</button>
+			</nav>
+		</header>
 
 		<!-- Hero Section -->
 		<section class="hero">
 			<div class="hero-content">
-				<h1>Professional Audio Review Made Simple</h1>
+				<h1>
+					Professional
+					<span class="highlight">Audio Review</span> Made Simple
+				</h1>
 				<p>
 					Collaborate seamlessly with producers and clients. Review,
 					comment, and approve audio projects in real-time.
 				</p>
-				<div class="hero-cta">
-					<button class="primary" onclick="scrollToSection('demo')">
-						View Demo
+				<div class="hero-buttons">
+					<button
+						class="btn btn-primary"
+						onclick="scrollToSection('demo')"
+					>
+						▶ View Demo
 					</button>
 					<button
-						class="secondary"
+						class="btn btn-secondary"
 						onclick="scrollToSection('features')"
 					>
-						Learn More
+						Learn More →
 					</button>
+				</div>
+				<div class="stats">
+					<div class="stat-item">
+						<div class="stat-icon">🎵</div>
+						<div class="stat-value">1M+</div>
+						<div class="stat-label">Audio Hours Reviewed</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-icon">👥</div>
+						<div class="stat-value">10K+</div>
+						<div class="stat-label">Active Users</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-icon">⭐</div>
+						<div class="stat-value">4.9/5</div>
+						<div class="stat-label">User Rating</div>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -328,6 +357,7 @@
 				<h2>Ready to Simplify Your Audio Reviews?</h2>
 				<p>Join hundreds of creators and teams already using ARA</p>
 				<button
+					class="btn btn-primary"
 					onclick="
 						alert(
 							'Demo: Starting your free trial!\\n\\nIn the real app, you would be taken to sign up page.',
@@ -341,7 +371,7 @@
 
 		<!-- Footer -->
 		<footer>
-			<div class="footer-container">
+			<div class="footer-content">
 				<div class="footer-section">
 					<h4>Product</h4>
 					<ul>
@@ -388,6 +418,25 @@
 		</footer>
 
 		<script>
+			// Mobile menu toggle
+			document.addEventListener("DOMContentLoaded", () => {
+				const menuToggle = document.getElementById("menuToggle");
+				const navLinks = document.getElementById("navLinks");
+
+				if (menuToggle) {
+					menuToggle.addEventListener("click", () => {
+						navLinks.classList.toggle("active");
+					});
+				}
+
+				// Close menu when a link is clicked
+				document.querySelectorAll(".nav-links a").forEach((link) => {
+					link.addEventListener("click", () => {
+						if (navLinks) navLinks.classList.remove("active");
+					});
+				});
+			});
+
 			// Audio player demo
 			let isPlaying = false;
 			let currentTime = 0;
@@ -398,6 +447,7 @@
 			// Generate demo waveform
 			function generateWaveform() {
 				const waveformContainer = document.getElementById("waveform");
+				if (!waveformContainer) return;
 				waveformContainer.innerHTML = "";
 
 				for (let i = 0; i < WAVEFORM_BARS; i++) {
