@@ -1,6 +1,6 @@
-# ARA Components Prototype
+# Various Prototypes
 
-This version is split into multiple HTML files that all share a separate stylesheet and small shared JS helper file.
+This site is dedicated to showing various prototypes of apps I want to eventually finish up. They're split up into multiple HTML folders with files that all share a separate stylesheet and small shared JS helper file.
 
 Files:
 
@@ -11,4 +11,4 @@ Files:
 - `assets/styles.css` — shared CSS for all pages
 - `assets/app.js` — shared helpers for modal and waveform setup
 
-This structure is better for scaling the prototype across numerous HTML files while keeping a shared visual system.
+This structure is better for scaling the prototypes across numerous HTML files while keeping a shared visual system.
