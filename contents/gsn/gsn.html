@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Gifted Sounds Network - Amplifying Diverse Voices</title>
+
+		<link rel="stylesheet" href="../../assets/styles.css" />
+	</head>
+	<body>
+		<!-- Header -->
+		<header>
+			<nav>
+				<div class="logo">🎙️ GSN</div>
+				<button class="menu-toggle" id="menuToggle">☰</button>
+				<ul class="nav-links" id="navLinks">
+					<li><a href="#shows">Shows</a></li>
+					<li><a href="#blog">Blog</a></li>
+					<li><a href="#events">Events</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#" class="cta">Subscribe</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<!-- Hero Section -->
+		<section class="hero">
+			<div class="hero-content">
+				<h1>
+					<span class="highlight">Gifted Sounds</span>
+					<br />Network
+				</h1>
+				<p>
+					Amplifying diverse voices across sports, culture, society,
+					LGBTQ+, tech, and comedy since 2017
+				</p>
+
+				<div class="hero-buttons">
+					<button class="btn btn-primary">▶ Explore Our Shows</button>
+					<button class="btn btn-secondary">Learn More →</button>
+				</div>
+
+				<div class="stats">
+					<div class="stat-item">
+						<div class="stat-icon">🎙️</div>
+						<div class="stat-value">25+</div>
+						<div class="stat-label">Shows</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-icon">🎧</div>
+						<div class="stat-value">500+</div>
+						<div class="stat-label">Episodes</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-icon">👥</div>
+						<div class="stat-value">50K+</div>
+						<div class="stat-label">Monthly Listeners</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Featured Shows Section -->
+		<section id="shows">
+			<div class="section-title">
+				<h2>Featured <span class="highlight">Shows</span></h2>
+				<p>
+					Explore our diverse collection of podcasts across multiple
+					genres
+				</p>
+			</div>
+
+			<div class="categories">
+				<button
+					class="category-chip active"
+					onclick="filterShows('all')"
+				>
+					All
+				</button>
+				<button class="category-chip" onclick="filterShows('sports')">
+					Sports
+				</button>
+				<button class="category-chip" onclick="filterShows('culture')">
+					Culture
+				</button>
+				<button class="category-chip" onclick="filterShows('lgbtq')">
+					LGBTQ+
+				</button>
+				<button class="category-chip" onclick="filterShows('tech')">
+					Tech
+				</button>
+				<button class="category-chip" onclick="filterShows('comedy')">
+					Comedy
+				</button>
+			</div>
+
+			<div class="shows-grid" id="showsGrid">
+				<!-- Populated by JavaScript -->
+			</div>
+		</section>
+
+		<!-- Blog Section -->
+		<section id="blog">
+			<div class="section-title">
+				<h2>Latest <span class="highlight">Stories</span></h2>
+				<p>Insights, updates, and stories from the GSN community</p>
+			</div>
+
+			<div class="blog-grid" id="blogGrid">
+				<!-- Populated by JavaScript -->
+			</div>
+		</section>
+
+		<!-- Events Section -->
+		<section id="events">
+			<div class="section-title">
+				<h2>Upcoming <span class="highlight">Events</span></h2>
+				<p>Join us at our events and connect with the community</p>
+			</div>
+
+			<div class="events-list" id="eventsList">
+				<!-- Populated by JavaScript -->
+			</div>
+		</section>
+
+		<!-- Sponsors Section -->
+		<section>
+			<div class="section-title">
+				<h2>Our <span class="highlight">Partners</span></h2>
+				<p>Proudly supported by leading brands in audio and culture</p>
+			</div>
+
+			<div class="sponsors-grid" id="sponsorsGrid">
+				<!-- Populated by JavaScript -->
+			</div>
+		</section>
+
+		<!-- Newsletter Section -->
+		<section>
+			<div class="newsletter">
+				<h3>Stay Updated</h3>
+				<p>
+					Subscribe to our newsletter for the latest shows, episodes,
+					and behind-the-scenes content
+				</p>
+				<form
+					class="newsletter-form"
+					onsubmit="handleNewsletterSubmit(event)"
+				>
+					<input
+						type="email"
+						placeholder="Enter your email"
+						required
+					/>
+					<button type="submit">Subscribe</button>
+				</form>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer>
+			<div class="footer-content">
+				<div class="footer-section">
+					<h4>About GSN</h4>
+					<ul>
+						<li><a href="#">Our Mission</a></li>
+						<li><a href="#">Team</a></li>
+						<li><a href="#">History</a></li>
+						<li><a href="#">Press Kit</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h4>Categories</h4>
+					<ul>
+						<li><a href="#">Sports</a></li>
+						<li><a href="#">Culture</a></li>
+						<li><a href="#">LGBTQ+</a></li>
+						<li><a href="#">Tech</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h4>Connect</h4>
+					<ul>
+						<li><a href="#">Twitter</a></li>
+						<li><a href="#">Instagram</a></li>
+						<li><a href="#">Facebook</a></li>
+						<li><a href="#">LinkedIn</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h4>Support</h4>
+					<ul>
+						<li><a href="#">Help Center</a></li>
+						<li><a href="#">Contact Us</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="#">Terms of Service</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>
+					&copy; 2026 Gifted Sounds Network. All rights reserved. |
+					Amplifying diverse voices since 2017
+				</p>
+			</div>
+		</footer>
+
+		<script>
+			// Mock data for demonstration
+			const shows = [
+				{
+					id: 1,
+					title: "The Sports Hour",
+					category: "sports",
+					description: "Deep dives into sports culture and athletics",
+					emoji: "🏆",
+					episodes: 87,
+				},
+				{
+					id: 2,
+					title: "Culture Conversations",
+					category: "culture",
+					description: "Exploring cultural movements and artistry",
+					emoji: "🎨",
+					episodes: 62,
+				},
+				{
+					id: 3,
+					title: "Rainbow Voices",
+					category: "lgbtq",
+					description: "Stories from the LGBTQ+ community",
+					emoji: "🌈",
+					episodes: 54,
+				},
+				{
+					id: 4,
+					title: "Tech Tomorrow",
+					category: "tech",
+					description: "Innovation and technology trends",
+					emoji: "💻",
+					episodes: 71,
+				},
+				{
+					id: 5,
+					title: "Laugh Line",
+					category: "comedy",
+					description: "Comedy sketches and humorous perspectives",
+					emoji: "😂",
+					episodes: 45,
+				},
+				{
+					id: 6,
+					title: "City Talk",
+					category: "culture",
+					description: "Urban culture and city life insights",
+					emoji: "🏙️",
+					episodes: 38,
+				},
+			];
+
+			const blogPosts = [
+				{
+					id: 1,
+					title: "The Future of Audio Streaming",
+					date: "May 24, 2026",
+					excerpt:
+						"Exploring how podcasting is reshaping media consumption...",
+					author: "Sarah Chen",
+					emoji: "🎙️",
+				},
+				{
+					id: 2,
+					title: "Q2 Community Highlights",
+					date: "May 20, 2026",
+					excerpt:
+						"Celebrating our community's achievements this quarter...",
+					author: "Marcus Johnson",
+					emoji: "🌟",
+				},
+				{
+					id: 3,
+					title: "Behind the Scenes: Production Tips",
+					date: "May 15, 2026",
+					excerpt:
+						"Learn how our producers create engaging audio content...",
+					author: "Alex Rivera",
+					emoji: "🎙️",
+				},
+			];
+
+			const events = [
+				{
+					id: 1,
+					name: "GSN Live: Music & Culture",
+					date: "June 15, 2026",
+					month: "JUN",
+					day: "15",
+					location: "New York, NY",
+					description:
+						"Join us for a live recording event featuring performers and artists from the community.",
+				},
+				{
+					id: 2,
+					name: "Tech Roundtable Discussion",
+					date: "June 22, 2026",
+					month: "JUN",
+					day: "22",
+					location: "San Francisco, CA",
+					description:
+						"Industry leaders discuss the future of audio technology and podcasting.",
+				},
+				{
+					id: 3,
+					name: "Summer Community Picnic",
+					date: "July 4, 2026",
+					month: "JUL",
+					day: "04",
+					location: "Los Angeles, CA",
+					description:
+						"Casual gathering for GSN listeners and creators to network and celebrate.",
+				},
+			];
+
+			const sponsors = [
+				{ id: 1, name: "AudioForge" },
+				{ id: 2, name: "CityTech Labs" },
+				{ id: 3, name: "PrideWave" },
+				{ id: 4, name: "MetroSports Co." },
+				{ id: 5, name: "CultureCollective" },
+				{ id: 6, name: "LaughLine Media" },
+			];
+
+			// Render shows
+			function renderShows(filter = "all") {
+				const showsGrid = document.getElementById("showsGrid");
+				const filtered =
+					filter === "all"
+						? shows
+						: shows.filter((s) => s.category === filter);
+
+				showsGrid.innerHTML = filtered
+					.map(
+						(show) => `
+                <div class="show-card">
+                    <div class="show-card-image">
+                        ${show.emoji}
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="show-card-content">
+                        <div class="show-category">${show.category.charAt(0).toUpperCase() + show.category.slice(1)}</div>
+                        <h3 class="show-title">${show.title}</h3>
+                        <p class="show-description">${show.description}</p>
+                        <div class="show-episodes">🎧 ${show.episodes} episodes</div>
+                    </div>
+                </div>
+            `,
+					)
+					.join("");
+			}
+
+			// Render blog posts
+			function renderBlog() {
+				const blogGrid = document.getElementById("blogGrid");
+				blogGrid.innerHTML = blogPosts
+					.map(
+						(post) => `
+                <div class="blog-card">
+                    <div class="blog-image">${post.emoji}</div>
+                    <div class="blog-content">
+                        <div class="blog-date">${post.date}</div>
+                        <h3 class="blog-title">${post.title}</h3>
+                        <p class="blog-excerpt">${post.excerpt}</p>
+                        <div class="blog-author">By ${post.author}</div>
+                    </div>
+                </div>
+            `,
+					)
+					.join("");
+			}
+
+			// Render events
+			function renderEvents() {
+				const eventsList = document.getElementById("eventsList");
+				eventsList.innerHTML = events
+					.map(
+						(event) => `
+                <div class="event-card">
+                    <div class="event-date">
+                        <div class="event-month">${event.month}</div>
+                        <div class="event-day">${event.day}</div>
+                    </div>
+                    <div class="event-content">
+                        <h3>${event.name}</h3>
+                        <div class="event-location">📍 ${event.location}</div>
+                        <p class="event-description">${event.description}</p>
+                        <a href="#" class="event-link">Register Now →</a>
+                    </div>
+                </div>
+            `,
+					)
+					.join("");
+			}
+
+			// Render sponsors
+			function renderSponsors() {
+				const sponsorsGrid = document.getElementById("sponsorsGrid");
+				sponsorsGrid.innerHTML = sponsors
+					.map(
+						(sponsor) => `
+                <div class="sponsor-card">${sponsor.name}</div>
+            `,
+					)
+					.join("");
+			}
+
+			// Filter shows
+			function filterShows(category) {
+				const chips = document.querySelectorAll(".category-chip");
+				chips.forEach((chip) => chip.classList.remove("active"));
+				event.target.classList.add("active");
+				renderShows(category);
+			}
+
+			// Newsletter submit
+			function handleNewsletterSubmit(e) {
+				e.preventDefault();
+				alert(
+					"Thank you for subscribing! Check your email for confirmation.",
+				);
+				e.target.reset();
+			}
+
+			// Mobile menu toggle
+			document
+				.getElementById("menuToggle")
+				.addEventListener("click", function () {
+					document
+						.getElementById("navLinks")
+						.classList.toggle("active");
+				});
+
+			// Close mobile menu when link is clicked
+			document.querySelectorAll(".nav-links a").forEach((link) => {
+				link.addEventListener("click", function () {
+					document
+						.getElementById("navLinks")
+						.classList.remove("active");
+				});
+			});
+
+			// Initialize all sections
+			window.addEventListener("DOMContentLoaded", function () {
+				renderShows();
+				renderBlog();
+				renderEvents();
+				renderSponsors();
+			});
+
+			// Smooth scroll for anchor links
+			document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+				anchor.addEventListener("click", function (e) {
+					const href = this.getAttribute("href");
+					if (href !== "#") {
+						e.preventDefault();
+						const element = document.querySelector(href);
+						if (element) {
+							element.scrollIntoView({ behavior: "smooth" });
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
