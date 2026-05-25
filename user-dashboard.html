@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARA Prototype - User Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><div class="brand-logo">A</div><div><strong>ARA</strong><div class="muted" style="font-size:12px;">Shared CSS prototype</div></div></div>
+    <div class="nav">
+      <a href="./index.html">Index.tsx <span>01</span></a>
+      <a class="active" href="./user-dashboard.html">UserDashboard.tsx <span>02</span></a>
+      <a href="./admin-dashboard.html">AdminDashboard.tsx <span>03</span></a>
+      <a href="./project-review.html">ProjectReview.tsx <span>04</span></a>
+    </div>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <div>
+        <div class="eyebrow">Dashboard component</div>
+        <h1>UserDashboard.tsx</h1>
+        <div class="muted">This recreation follows the dashboard composition of header, stats, folders, filters, projects, and comments, with modal actions for create/edit/move/delete flows.[file:122]</div>
+      </div>
+      <div class="actions"><button class="btn" id="folderModalBtn">New Folder</button><button class="btn primary" id="projectModalBtn">New Project</button></div>
+    </div>
+    <div class="grid-4">
+      <div class="card"><div class="muted">Projects</div><div class="stats-value">24</div><div class="muted">Across all folders</div></div>
+      <div class="card"><div class="muted">Needs review</div><div class="stats-value">7</div><div class="status-needs-review">3 updated today</div></div>
+      <div class="card"><div class="muted">Comments</div><div class="stats-value">83</div><div class="muted">Across tracks and projects</div></div>
+      <div class="card"><div class="muted">Storage</div><div class="stats-value">186 GB</div><div class="muted">of 500 GB</div></div>
+    </div>
+    <div class="grid-2 section-gap">
+      <div class="card"><div class="panel-title"><h3>Folders</h3><button class="btn small" id="allProjectsBtn">All Projects</button></div><div class="muted" style="margin-bottom:12px;">Create and organize folders to structure your project tracks.[file:122]</div><div class="folder-list" id="userFolders"></div></div>
+      <div class="card"><div class="panel-title"><h3>Filters</h3><div class="badge">Live</div></div><div class="filters"><input class="input" id="searchInput" placeholder="Search projects" /><select class="select" id="typeSelect"><option value="all">All types</option><option>music</option><option>podcast</option><option>voice-over</option><option>sound-design</option></select><select class="select" id="statusSelect"><option value="all">All statuses</option><option>approved</option><option>in-progress</option><option>archived</option><option>draft</option><option>needs-review</option></select><select class="select" id="viewSelect"><option>grid</option><option>list</option></select><button class="btn" id="resetFilters">Reset</button></div><div class="project-list section-gap" id="userProjects"></div></div>
+    </div>
+    <div class="grid-2 section-gap">
+      <div class="card"><div class="panel-title"><h3>My Comments</h3></div><div class="comment-list" id="myComments"></div></div>
+      <div class="card"><div class="panel-title"><h3>Project Comments</h3></div><div class="comment-list" id="projectComments"></div></div>
+    </div>
+  </main>
+</div>
+<div class="modal-wrap" id="modalWrap"><div class="modal"><div class="panel-title"><h3 id="modalTitle" style="margin:0;">Prototype action</h3><button class="btn small" id="closeModal">Close</button></div><div id="modalBody"></div></div></div>
+<script src="./assets/app.js"></script>
+<script>
+setupModal();
+const folderData = [
+  { id:'all', name:'All Projects', count:24, color:'#7c3aed' },
+  { id:'folder-1', name:'Music', count:8, color:'#38bdf8' },
+  { id:'folder-2', name:'Podcasts', count:6, color:'#34d399' },
+  { id:'folder-3', name:'Voice-over', count:4, color:'#f59e0b' },
+  { id:'folder-4', name:'Sound Design', count:6, color:'#fb7185' }
+];
+const projectData = [
+  { title:'Summer Vibes Final Mix', type:'music', status:'needs-review', folder:'folder-1', comments:12, plays:148, collaborators:['AL','KM','JD'], duration:'3:48' },
+  { title:'Episode 04 Jane Doe', type:'podcast', status:'approved', folder:'folder-2', comments:8, plays:94, collaborators:['TB','SG'], duration:'42:16' },
+  { title:'Brand VO Selects', type:'voice-over', status:'in-progress', folder:'folder-3', comments:19, plays:61, collaborators:['AZ','RE'], duration:'1:26' },
+  { title:'Trailer Rise Pass', type:'sound-design', status:'draft', folder:'folder-4', comments:4, plays:18, collaborators:['MN'], duration:'0:58' },
+  { title:'Club Stem Print', type:'music', status:'archived', folder:'folder-1', comments:31, plays:207, collaborators:['AL','KM'], duration:'4:13' }
+];
+const myCommentData = [
+  { project:'Summer Vibes Final Mix', body:'Can we brighten the lead vocal in the second chorus?', time:'4m ago' },
+  { project:'Brand VO Selects', body:'Take 3 has the cleanest pacing.', time:'28m ago' }
+];
+const projectCommentData = [
+  { author:'Maya', project:'Episode 04 Jane Doe', body:'Love the cold open, but the bed is too loud at 00:24.', time:'1h ago' },
+  { author:'Chris', project:'Summer Vibes Final Mix', body:'Kick transient hits nicely after 2:10.', time:'2h ago' },
+  { author:'Jess', project:'Trailer Rise Pass', body:'Can we preview a darker whoosh here?', time:'5h ago' }
+];
+let selectedFolder = 'all';
+function statusClass(status){ return 'status-' + status; }
+function renderFolders() {
+  const el = document.getElementById('userFolders');
+  el.innerHTML = folderData.map(f => `<div class="folder-item ${selectedFolder===f.id?'active':''}" data-folder-id="${f.id}"><div class="row"><span style="width:12px;height:12px;border-radius:999px;background:${f.color};display:inline-block"></span><strong>${f.name}</strong></div><span class="muted">${f.count}</span></div>`).join('');
+  el.querySelectorAll('[data-folder-id]').forEach(node => node.onclick = () => { selectedFolder = node.dataset.folderId; renderFolders(); renderProjects(); });
+}
+function renderProjects() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const type = document.getElementById('typeSelect').value;
+  const status = document.getElementById('statusSelect').value;
+  const filtered = projectData.filter(p => (selectedFolder==='all' || p.folder===selectedFolder) && (type==='all' || p.type===type) && (status==='all' || p.status===status) && p.title.toLowerCase().includes(q));
+  document.getElementById('userProjects').innerHTML = filtered.map((p,i) => `<div class="project-item"><div><div class="row" style="justify-content:space-between;"><h3 style="margin:0">${p.title}</h3><span class="badge ${statusClass(p.status)}">${p.status}</span></div><div class="muted">${p.type} • ${p.duration} • ${p.comments} comments • ${p.plays} plays</div><div class="avatars section-gap">${p.collaborators.map(a=>`<span class="avatar">${a}</span>`).join('')}</div></div><div class="actions"><a class="btn small" href="./project-review.html">Open</a><button class="btn small" data-edit-project="${i}">Edit</button></div></div>`).join('');
+  document.querySelectorAll('[data-edit-project]').forEach(b => b.onclick = () => openModal('Edit Project', `<div class="row" style="flex-direction:column;align-items:stretch"><input class="input" value="${projectData[b.dataset.editProject].title}"><select class="select"><option>${projectData[b.dataset.editProject].type}</option></select><textarea class="textarea">Prototype edit form mirroring dashboard project modal behavior.[file:122]</textarea><div class="actions"><button class="btn primary" onclick="closeModal()">Save</button><button class="btn" onclick="closeModal()">Move</button><button class="btn" onclick="closeModal()">Archive</button></div></div>`));
+}
+function renderComments() {
+  document.getElementById('myComments').innerHTML = myCommentData.map(c => `<div class="comment-item"><strong>${c.project}</strong><p>${c.body}</p><div class="muted">${c.time}</div></div>`).join('');
+  document.getElementById('projectComments').innerHTML = projectCommentData.map(c => `<div class="comment-item"><div class="row" style="justify-content:space-between;"><strong>${c.author}</strong><span class="muted">${c.time}</span></div><div class="muted">${c.project}</div><p>${c.body}</p></div>`).join('');
+}
+document.getElementById('projectModalBtn').onclick = () => openModal('New Project', `<div class="row" style="flex-direction:column;align-items:stretch"><input class="input" placeholder="Project title" value="New branded campaign"><select class="select"><option>music</option><option>podcast</option><option>voice-over</option><option>sound-design</option></select><textarea class="textarea">This mirrors the new project modal used by the dashboard flow.[file:122]</textarea><button class="btn primary" onclick="closeModal()">Create Project</button></div>`);
+document.getElementById('folderModalBtn').onclick = () => openModal('New Folder', `<div class="row" style="flex-direction:column;align-items:stretch"><input class="input" value="Q3 Campaigns"><select class="select"><option>Blue</option><option>Purple</option><option>Green</option></select><button class="btn primary" onclick="closeModal()">Save Folder</button></div>`);
+document.getElementById('allProjectsBtn').onclick = () => { selectedFolder = 'all'; renderFolders(); renderProjects(); };
+document.getElementById('searchInput').addEventListener('input', renderProjects);
+document.getElementById('typeSelect').addEventListener('change', renderProjects);
+document.getElementById('statusSelect').addEventListener('change', renderProjects);
+document.getElementById('resetFilters').onclick = () => { selectedFolder='all'; document.getElementById('searchInput').value=''; document.getElementById('typeSelect').value='all'; document.getElementById('statusSelect').value='all'; renderFolders(); renderProjects(); };
+renderFolders(); renderProjects(); renderComments();
+</script>
+</body>
+</html>
