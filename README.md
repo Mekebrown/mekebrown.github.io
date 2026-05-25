@@ -1,25 +1,13 @@
-# ARA Prototype
+# ARA Components Prototype
 
-Static clickable prototype based on the attached Vite/Express app files.
+This version is split into multiple HTML files that all share a separate stylesheet and small shared JS helper file.
 
-## Included screens
+Files:
+- `index.html` — landing view based on `Index.tsx`
+- `user-dashboard.html` — dashboard view based on `UserDashboard.tsx`
+- `admin-dashboard.html` — admin view based on `AdminDashboard.tsx`
+- `project-review.html` — review view based on `ProjectReview.tsx`
+- `assets/styles.css` — shared CSS for all pages
+- `assets/app.js` — shared helpers for modal and waveform setup
 
-- Landing page
-- User dashboard
-- Admin dashboard
-- Project review
-
-## GitHub Pages SPA support
-
-This prototype includes:
-
-- `index.html` redirect decoding script
-- `404.html` redirect script
-
-These are modeled after the routing pattern documented in `rafgraph/spa-github-pages`.
-
-## Notes
-
-- This is a public clickable shell, not a live backend build.
-- Upload, comment, and playback actions are simulated in-browser.
-- Routes work as SPA-style paths when hosted with the matching GitHub Pages redirect pattern.
+This structure is better for scaling the prototype across numerous HTML files while keeping a shared visual system.
