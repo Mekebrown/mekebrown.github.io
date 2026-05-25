@@ -3,6 +3,7 @@
 This version is split into multiple HTML files that all share a separate stylesheet and small shared JS helper file.
 
 Files:
+
 - `index.html` — landing view based on `Index.tsx`
 - `user-dashboard.html` — dashboard view based on `UserDashboard.tsx`
 - `admin-dashboard.html` — admin view based on `AdminDashboard.tsx`
