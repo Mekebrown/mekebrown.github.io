@@ -1,533 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ARA Components Prototype</title>
-    <script>
-      (function () {
-        var l = window.location;
-        if (l.search[1] === '/') {
-          var decoded = l.search
-            .slice(1)
-            .split('&')
-            .map(function (s) {
-              return s.replace(/~and~/g, '&');
-            })
-            .join('?');
-          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
-        }
-      })();
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-      :root {
-        --bg: #09090b;
-        --panel: #111114;
-        --panel-2: #18181c;
-        --panel-3: #202027;
-        --text: #f4f4f5;
-        --muted: #a1a1aa;
-        --faint: #71717a;
-        --line: rgba(255,255,255,.08);
-        --line-2: rgba(255,255,255,.14);
-        --primary: #7c3aed;
-        --primary-2: #8b5cf6;
-        --blue: #38bdf8;
-        --green: #34d399;
-        --yellow: #f59e0b;
-        --red: #f87171;
-        --radius: 20px;
-        --radius-sm: 14px;
-        --shadow: 0 18px 60px rgba(0,0,0,.35);
-      }
-      * { box-sizing: border-box; }
-      html, body { margin: 0; min-height: 100%; background: radial-gradient(circle at top left, rgba(124,58,237,.22), transparent 28%), radial-gradient(circle at top right, rgba(56,189,248,.15), transparent 22%), var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; }
-      a { color: inherit; text-decoration: none; }
-      button, input, select, textarea { font: inherit; }
-      .app { min-height: 100vh; display: grid; grid-template-columns: 260px 1fr; }
-      .sidebar { background: rgba(10,10,13,.86); border-right: 1px solid var(--line); padding: 24px 18px; position: sticky; top: 0; height: 100vh; backdrop-filter: blur(16px); }
-      .brand { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border: 1px solid var(--line); }
-      .brand-mark { width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--blue)); display:flex; align-items:center; justify-content:center; font-weight: 800; }
-      .brand small { display:block; color: var(--muted); font-size: 12px; }
-      .nav { margin-top: 28px; display: grid; gap: 8px; }
-      .nav button { width: 100%; border: 1px solid transparent; background: transparent; color: var(--muted); padding: 14px 14px; border-radius: 16px; text-align: left; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
-      .nav button.active { background: linear-gradient(180deg, rgba(124,58,237,.22), rgba(124,58,237,.12)); color: white; border-color: rgba(139,92,246,.35); }
-      .nav button:hover { background: rgba(255,255,255,.04); color: white; }
-      .sidebar-foot { position:absolute; left:18px; right:18px; bottom:18px; padding: 14px; border-radius: 18px; background: var(--panel); border:1px solid var(--line); }
-      .main { padding: 26px; }
-      .screen { display:none; }
-      .screen.active { display:block; }
-      .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom: 22px; }
-      .topbar h1 { margin:0; font-size: clamp(28px, 2vw, 42px); }
-      .muted { color: var(--muted); }
-      .toolbar { display:flex; gap:10px; flex-wrap:wrap; }
-      .btn { border:none; border-radius: 14px; padding: 12px 16px; cursor:pointer; color:white; background: rgba(255,255,255,.06); border:1px solid var(--line); }
-      .btn.primary { background: linear-gradient(135deg, var(--primary), var(--primary-2)); border:none; box-shadow: 0 10px 24px rgba(124,58,237,.35); }
-      .btn.ghost { background: transparent; }
-      .btn.small { padding: 8px 12px; border-radius: 12px; font-size: 14px; }
-      .hero { background: linear-gradient(140deg, rgba(124,58,237,.22), rgba(255,255,255,.03)); border:1px solid var(--line); border-radius: 28px; padding: 28px; box-shadow: var(--shadow); display:grid; grid-template-columns: 1.3fr 1fr; gap: 26px; }
-      .eyebrow { font-size: 12px; letter-spacing: .14em; color: #c4b5fd; text-transform: uppercase; }
-      .wave-shell { border-radius: 22px; background: rgba(0,0,0,.22); border: 1px solid var(--line); padding: 18px; }
-      .track-head { display:flex; justify-content:space-between; gap:10px; margin-bottom:14px; }
-      .waveform { height: 150px; display:flex; align-items:end; gap: 4px; padding: 12px 2px; cursor:pointer; }
-      .waveform span { flex:1; border-radius: 999px; background: linear-gradient(180deg, rgba(56,189,248,.95), rgba(124,58,237,.9)); opacity: .9; }
-      .comment-pill { display:inline-flex; gap:8px; align-items:center; padding: 8px 12px; background: rgba(255,255,255,.06); border-radius: 999px; border:1px solid var(--line); font-size: 13px; margin: 4px 8px 0 0; }
-      .grid-3, .grid-4, .grid-2 { display:grid; gap:18px; }
-      .grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
-      .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
-      .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid var(--line); border-radius: 24px; padding: 20px; box-shadow: var(--shadow); }
-      .stat { font-size: 34px; font-weight: 800; margin: 8px 0 4px; }
-      .badge { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; border:1px solid var(--line); background: rgba(255,255,255,.05); }
-      .green { color: var(--green); } .yellow{ color: var(--yellow);} .blue{ color: var(--blue);} .red{ color: var(--red);} 
-      .feature h3,.card h3,.card h4 { margin: 0 0 8px; }
-      .section { margin-top: 20px; }
-      .folders { display:grid; gap:12px; }
-      .folder { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; border-radius:18px; background: rgba(255,255,255,.03); border:1px solid var(--line); cursor:pointer; }
-      .folder.active { border-color: rgba(56,189,248,.35); background: rgba(56,189,248,.08); }
-      .projects { display:grid; gap:16px; }
-      .project { display:grid; grid-template-columns: 1fr auto; gap:16px; padding: 18px; border-radius: 22px; background: rgba(255,255,255,.03); border:1px solid var(--line); }
-      .project-meta,.row,.list { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-      .avatar { width: 30px; height:30px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background: linear-gradient(135deg, var(--blue), var(--primary)); font-size:12px; font-weight:700; margin-right:-8px; border:2px solid #111; }
-      .search { width: 100%; background: rgba(255,255,255,.04); color:white; border:1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-      .filters { display:grid; grid-template-columns: 1.2fr repeat(3,.6fr) auto; gap:12px; }
-      .select { background: rgba(255,255,255,.04); color: white; border:1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-      .comments-list { display:grid; gap:12px; max-height: 520px; overflow:auto; padding-right:6px; }
-      .comment { padding:14px; border-radius:18px; border:1px solid var(--line); background: rgba(255,255,255,.03); }
-      .timeline { position: relative; height: 16px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden; }
-      .timeline .fill { position:absolute; left:0; top:0; bottom:0; background: linear-gradient(90deg, var(--blue), var(--primary)); width: 26%; }
-      .marker { position:absolute; top:-4px; width:12px; height:24px; border-radius:999px; background:white; box-shadow:0 0 0 4px rgba(124,58,237,.25); transform: translateX(-50%); cursor:pointer; }
-      .two-col { display:grid; grid-template-columns: minmax(0,1.6fr) minmax(320px,.95fr); gap:18px; }
-      .player { padding:22px; border-radius: 26px; background: linear-gradient(180deg, rgba(124,58,237,.15), rgba(255,255,255,.02)); border:1px solid var(--line); }
-      .player-controls { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:18px; }
-      .circle-btn { width:50px; height:50px; border-radius:50%; border:none; background: rgba(255,255,255,.08); color:white; cursor:pointer; }
-      .circle-btn.play { background: linear-gradient(135deg, var(--primary), var(--blue)); }
-      .tracks, .tickets, .activity { display:grid; gap:12px; }
-      .track, .ticket, .activity-item { padding: 14px; background: rgba(255,255,255,.03); border:1px solid var(--line); border-radius: 18px; }
-      .progress { height: 10px; background: rgba(255,255,255,.08); border-radius:999px; overflow:hidden; }
-      .progress > span { display:block; height:100%; background: linear-gradient(90deg, var(--green), var(--blue)); }
-      .modal-backdrop { position: fixed; inset:0; background: rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:20px; z-index:30; }
-      .modal-backdrop.show { display:flex; }
-      .modal { width:min(560px,100%); background: #111114; border:1px solid var(--line-2); border-radius: 24px; padding: 22px; box-shadow: var(--shadow); }
-      .modal .stack { display:grid; gap:12px; }
-      .input, .textarea { width:100%; background: rgba(255,255,255,.04); color:white; border:1px solid var(--line); border-radius:14px; padding: 12px 14px; }
-      .textarea { min-height: 110px; resize: vertical; }
-      .mini-tabs { display:flex; gap:8px; flex-wrap:wrap; }
-      .mini-tabs button { padding: 10px 12px; border-radius: 999px; border:1px solid var(--line); background: transparent; color: var(--muted); cursor:pointer; }
-      .mini-tabs button.active { background: rgba(124,58,237,.18); color:white; border-color: rgba(124,58,237,.4); }
-      .hide-mobile { display:block; }
-      @media (max-width: 1024px) {
-        .app { grid-template-columns: 1fr; }
-        .sidebar { position: relative; height: auto; }
-        .sidebar-foot { position: static; margin-top: 20px; }
-        .hero, .two-col, .grid-4, .grid-3, .grid-2, .filters { grid-template-columns: 1fr; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="app">
-      <aside class="sidebar">
-        <div class="brand">
-          <div class="brand-mark">A</div>
-          <div>
-            <strong>ARA Prototype</strong>
-            <small>Static SPA component shell</small>
-          </div>
-        </div>
-        <div class="nav">
-          <button class="active" data-screen-target="home">Landing <span>01</span></button>
-          <button data-screen-target="user">User Dashboard <span>02</span></button>
-          <button data-screen-target="admin">Admin Dashboard <span>03</span></button>
-          <button data-screen-target="review">Project Review <span>04</span></button>
-        </div>
-        <div class="sidebar-foot">
-          <div style="font-weight:700; margin-bottom:6px;">Prototype mode</div>
-          <div class="muted" style="font-size:14px;">All data is spoofed, but the visible component interactions match the attached client screen patterns.[file:119][file:120][file:121][file:122]</div>
-        </div>
-      </aside>
-      <main class="main">
-        <section class="screen active" id="screen-home">
-          <div class="topbar">
-            <div>
-              <div class="eyebrow">Audio review platform</div>
-              <h1>The Future of Audio Collaboration</h1>
-              <div class="muted">This prototype recreates the client-facing marketing shell with a waveform hero, timestamp comments, review links, and versioning highlights.[file:119]</div>
-            </div>
-            <div class="toolbar">
-              <button class="btn ghost" data-open="signin">Sign in</button>
-              <button class="btn primary" data-screen-jump="user">Open app</button>
-            </div>
-          </div>
-          <div class="hero">
-            <div>
-              <div class="badge">Trusted by leading audio teams</div>
-              <h2 style="font-size:40px; margin:14px 0 12px;">Timestamped reviews for producers, clients, and editors.</h2>
-              <p class="muted">The attached landing component emphasizes leaving notes directly on the waveform, client review links, and stacked version control. This shell makes each of those visible and clickable.[file:119]</p>
-              <div style="margin-top:18px;" class="toolbar">
-                <button class="btn primary" data-screen-jump="review">Try project review</button>
-                <button class="btn">Share client link</button>
-              </div>
-              <div style="margin-top:18px;">
-                <span class="comment-pill">00:24 Tighten intro</span>
-                <span class="comment-pill">01:42 Lift vocals</span>
-                <span class="comment-pill">02:58 Final chorus impact</span>
-              </div>
-            </div>
-            <div class="wave-shell">
-              <div class="track-head">
-                <div>
-                  <strong>Summer Vibes – Final Mix.wav</strong>
-                  <div class="muted">3:48 • 48kHz / 24-bit</div>
-                </div>
-                <div class="badge blue">Live preview</div>
-              </div>
-              <div class="waveform" id="heroWave"></div>
-              <div class="timeline" style="margin-top:12px;"><div class="fill" id="heroProgress"></div></div>
-              <div class="row" style="justify-content:space-between; margin-top:12px;">
-                <div class="row"><button class="circle-btn">&#9664;</button><button class="circle-btn play" id="heroPlay">&#9654;</button><button class="circle-btn">&#9654;&#9654;</button></div>
-                <div class="muted" id="heroTime">00:58 / 03:48</div>
-              </div>
-            </div>
-          </div>
-          <div class="grid-3 section">
-            <div class="card feature"><h3>Timestamped Comments</h3><p class="muted">Click anywhere on the waveform to leave a note. The comment jumps to the exact moment in the track.[file:119]</p></div>
-            <div class="card feature"><h3>Client Review Links</h3><p class="muted">Share secure listening links so clients can preview and respond without a full account flow.[file:119]</p></div>
-            <div class="card feature"><h3>Version Control</h3><p class="muted">Keep revisions layered on top of earlier versions while preserving context and discussion.[file:119]</p></div>
-          </div>
-        </section>
-
-        <section class="screen" id="screen-user">
-          <div class="topbar">
-            <div>
-              <h1>User Dashboard</h1>
-              <div class="muted">This prototype reflects the folder system, filters, project cards, stats, and modal flows visible in the dashboard component tree.[file:122]</div>
-            </div>
-            <div class="toolbar">
-              <button class="btn" id="newFolderBtn">New Folder</button>
-              <button class="btn primary" id="newProjectBtn">New Project</button>
-            </div>
-          </div>
-          <div class="grid-4">
-            <div class="card"><div class="muted">Active projects</div><div class="stat">24</div><div class="green">+12% this month</div></div>
-            <div class="card"><div class="muted">Comments waiting</div><div class="stat">83</div><div class="yellow">19 need replies</div></div>
-            <div class="card"><div class="muted">Shared links</div><div class="stat">12</div><div class="blue">4 viewed today</div></div>
-            <div class="card"><div class="muted">Storage</div><div class="stat">186 GB</div><div class="muted">of 500 GB used</div></div>
-          </div>
-          <div class="grid-2 section">
-            <div class="card">
-              <div class="row" style="justify-content:space-between; margin-bottom:12px;"><h3>Folders</h3><div class="badge">Manage</div></div>
-              <div class="folders" id="folderList"></div>
-            </div>
-            <div class="card">
-              <div class="row" style="justify-content:space-between; margin-bottom:12px;"><h3>Filters</h3><div class="badge">Interactive</div></div>
-              <div class="filters">
-                <input class="search" id="projectSearch" placeholder="Search projects" />
-                <select class="select" id="typeFilter"><option value="all">All types</option><option>music</option><option>podcast</option><option>voice-over</option><option>sound-design</option></select>
-                <select class="select" id="statusFilter"><option value="all">All statuses</option><option>approved</option><option>in-progress</option><option>draft</option><option>needs-review</option><option>archived</option></select>
-                <select class="select" id="viewMode"><option value="grid">Grid</option><option value="list">List</option></select>
-                <button class="btn" id="clearFilters">Reset</button>
-              </div>
-              <div class="projects section" id="projectList"></div>
-            </div>
-          </div>
-          <div class="grid-2 section">
-            <div class="card"><h3>My Comments</h3><div class="comments-list" id="myComments"></div></div>
-            <div class="card"><h3>Team Comments</h3><div class="comments-list" id="teamComments"></div></div>
-          </div>
-        </section>
-
-        <section class="screen" id="screen-admin">
-          <div class="topbar">
-            <div>
-              <h1>Admin Dashboard</h1>
-              <div class="muted">The attached admin component focuses on platform metrics, user activity, retention, top projects, KPI targets, and support queues.[file:121]</div>
-            </div>
-            <div class="toolbar"><button class="btn">Export CSV</button><button class="btn primary">System Status</button></div>
-          </div>
-          <div class="grid-4">
-            <div class="card"><div class="muted">Total projects</div><div class="stat">1,248</div><div class="green">+9.4%</div></div>
-            <div class="card"><div class="muted">Active users (24h)</div><div class="stat">2,847</div><div class="blue">Healthy</div></div>
-            <div class="card"><div class="muted">Retention (7d)</div><div class="stat">94.2%</div><div class="green">Above target</div></div>
-            <div class="card"><div class="muted">Avg session</div><div class="stat">6.8m</div><div class="yellow">Slight dip</div></div>
-          </div>
-          <div class="grid-3 section">
-            <div class="card"><h3>Platform performance</h3><div class="list"><div style="width:100%"><div class="row" style="justify-content:space-between;"><span>Upload completion</span><span>97%</span></div><div class="progress"><span style="width:97%"></span></div></div><div style="width:100%"><div class="row" style="justify-content:space-between;"><span>Comment delivery</span><span>92%</span></div><div class="progress"><span style="width:92%"></span></div></div><div style="width:100%"><div class="row" style="justify-content:space-between;"><span>Playback startup</span><span>88%</span></div><div class="progress"><span style="width:88%"></span></div></div></div></div>
-            <div class="card"><h3>Key metrics</h3><div class="tickets" id="metricCards"></div></div>
-            <div class="card"><h3>Support tickets</h3><div class="tickets" id="ticketList"></div></div>
-          </div>
-          <div class="grid-2 section">
-            <div class="card"><h3>Recent activity</h3><div class="activity" id="activityList"></div></div>
-            <div class="card"><h3>Top projects this week</h3><div class="tickets" id="topProjects"></div></div>
-          </div>
-        </section>
-
-        <section class="screen" id="screen-review">
-          <div class="topbar">
-            <div>
-              <h1>Project Review</h1>
-              <div class="muted">This screen recreates the core project review component behavior: audio playback shell, waveform seeking, comments, replies, folders, collaborators, tracks, and upload affordances.[file:120][file:124]</div>
-            </div>
-            <div class="toolbar"><button class="btn">Share</button><button class="btn">Download</button><button class="btn primary" id="addCommentBtn">Add comment</button></div>
-          </div>
-          <div class="two-col">
-            <div class="player">
-              <div class="row" style="justify-content:space-between;"><div><div class="badge">Interview with Jane Doe</div><h2 style="margin:12px 0 6px;">Episode 04 – Producer review</h2><div class="muted">Demo shell with spoofed timeline, waveform markers, and transport controls.[file:120]</div></div><div class="badge">Published</div></div>
-              <div class="waveform" id="reviewWave"></div>
-              <div class="timeline" id="reviewTimeline"><div class="fill" id="reviewProgress"></div><div class="marker" id="playhead" style="left:26%"></div></div>
-              <div class="player-controls">
-                <div class="row"><button class="circle-btn">&#9664;</button><button class="circle-btn play" id="reviewPlay">&#9654;</button><button class="circle-btn">&#9654;&#9654;</button></div>
-                <div style="flex:1;">
-                  <div class="row" style="justify-content:space-between;"><span class="muted">Current time</span><span id="reviewTime">00:58 / 03:42</span></div>
-                  <input type="range" id="volumeSlider" min="0" max="100" value="72" style="width:100%; margin-top:8px;">
-                </div>
-              </div>
-              <div class="grid-2 section">
-                <div class="card">
-                  <div class="row" style="justify-content:space-between;"><h4>Tracks</h4><button class="btn small" id="addTrackBtn">Upload</button></div>
-                  <div class="tracks" id="trackList"></div>
-                </div>
-                <div class="card">
-                  <div class="row" style="justify-content:space-between;"><h4>Folders</h4><button class="btn small" id="addReviewFolderBtn">New</button></div>
-                  <div class="tracks" id="reviewFolderList"></div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="mini-tabs"><button class="active" data-review-tab="comments">Comments</button><button data-review-tab="collaborators">Collaborators</button><button data-review-tab="uploads">Uploads</button></div>
-              <div class="section" id="reviewPanel"></div>
-            </div>
-          </div>
-        </section>
-      </main>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARA Prototype - Landing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><div class="brand-logo">A</div><div><strong>ARA</strong><div class="muted" style="font-size:12px;">Shared CSS prototype</div></div></div>
+    <div class="nav">
+      <a class="active" href="./index.html">Index.tsx <span>01</span></a>
+      <a href="./user-dashboard.html">UserDashboard.tsx <span>02</span></a>
+      <a href="./admin-dashboard.html">AdminDashboard.tsx <span>03</span></a>
+      <a href="./project-review.html">ProjectReview.tsx <span>04</span></a>
     </div>
-
-    <div class="modal-backdrop" id="modal">
-      <div class="modal">
-        <div class="row" style="justify-content:space-between; margin-bottom:14px;"><h3 id="modalTitle" style="margin:0;">Create item</h3><button class="btn small" id="closeModal">Close</button></div>
-        <div class="stack" id="modalBody"></div>
+  </aside>
+  <main class="content">
+    <div class="page-header">
+      <div>
+        <div class="eyebrow">Landing component</div>
+        <h1>Index.tsx</h1>
+        <div class="muted">This page recreates the landing structure centered on the “Future of Audio Collaboration” hero, waveform demo card, and three feature blocks.[file:119]</div>
+      </div>
+      <div class="actions"><a class="btn" href="./user-dashboard.html">Open app</a><a class="btn primary" href="./project-review.html">Open review</a></div>
+    </div>
+    <div class="card hero">
+      <div>
+        <div class="badge">Trusted by leading audio teams</div>
+        <div class="headline">The Future of Audio Collaboration</div>
+        <p class="muted">The attached landing page highlights a featured waveform player, timestamped comments, client review links, and version control as its core message.[file:119]</p>
+      </div>
+      <div class="hero-art">
+        <div class="track-card">
+          <div class="row" style="justify-content:space-between;"><div><strong>Summer Vibes – Final Mix.wav</strong><div class="muted">3:48 • 48kHz / 24-bit</div></div><div class="badge">Demo track</div></div>
+          <div class="wave" id="landingWave"></div>
+          <div class="progress"><span id="landingFill" style="width:24%"></span></div>
+          <div class="row" style="justify-content:space-between; margin-top:12px;"><div class="actions"><button class="circle">&#9664;</button><button class="circle play" id="landingPlay">&#9654;</button><button class="circle">&#9654;&#9654;</button></div><strong id="landingTime">00:54 / 03:48</strong></div>
+        </div>
       </div>
     </div>
-
-    <script>
-      const wave = (el, bars = 56) => {
-        el.innerHTML = '';
-        for (let i = 0; i < bars; i++) {
-          const s = document.createElement('span');
-          s.style.height = (18 + Math.sin(i / 2.4) * 24 + Math.random() * 64) + 'px';
-          el.appendChild(s);
-        }
-      };
-      wave(document.getElementById('heroWave'), 52);
-      wave(document.getElementById('reviewWave'), 76);
-
-      const folders = [
-        { id: 'all', name: 'All Projects', color: '#7c3aed', count: 24 },
-        { id: 'music', name: 'Music', color: '#38bdf8', count: 8 },
-        { id: 'podcasts', name: 'Podcasts', color: '#34d399', count: 6 },
-        { id: 'voice', name: 'Voice-over', color: '#f59e0b', count: 4 },
-        { id: 'sound', name: 'Sound Design', color: '#f87171', count: 6 }
-      ];
-      const projects = [
-        { title:'Summer Vibes Final Mix', type:'music', status:'needs-review', folder:'music', comments:12, plays:148, duration:'3:48', collaborators:['AL','KM','JD'] },
-        { title:'Episode 04 Jane Doe', type:'podcast', status:'approved', folder:'podcasts', comments:8, plays:94, duration:'42:16', collaborators:['TB','SG'] },
-        { title:'Brand VO Selects', type:'voice-over', status:'in-progress', folder:'voice', comments:19, plays:61, duration:'1:26', collaborators:['AZ','RE'] },
-        { title:'Trailer Rise Pass', type:'sound-design', status:'draft', folder:'sound', comments:4, plays:18, duration:'0:58', collaborators:['MN'] },
-        { title:'Club Stem Print', type:'music', status:'archived', folder:'music', comments:31, plays:207, duration:'4:13', collaborators:['AL','KM'] }
-      ];
-      const comments = [
-        { author:'You', project:'Summer Vibes Final Mix', body:'Can we brighten the lead vocal in the second chorus?', time:'4m ago' },
-        { author:'You', project:'Brand VO Selects', body:'Take 3 has the cleanest pacing.', time:'28m ago' },
-        { author:'Maya', project:'Episode 04 Jane Doe', body:'Love the cold open, but the bed is too loud at 00:24.', time:'1h ago' },
-        { author:'Chris', project:'Summer Vibes Final Mix', body:'Kick transient hits nicely after 2:10.', time:'2h ago' },
-        { author:'Jess', project:'Trailer Rise Pass', body:'Can we preview a darker whoosh here?', time:'5h ago' }
-      ];
-      const adminActivity = [
-        'Maya created a client review link for Summer Vibes Final Mix',
-        'Chris uploaded 3 new stems to Episode 04 Jane Doe',
-        'Admin resolved a waveform rendering support ticket',
-        'Two-factor authentication enabled for 18 accounts'
-      ];
-      const metricCards = [
-        { label:'Conversion to paid', value:'12.4%', target:'10%' },
-        { label:'Client link usage', value:'68%', target:'60%' },
-        { label:'Weekly uploads', value:'4,281', target:'4,000' }
-      ];
-      const tickets = [
-        { issue:'Playback stuck on Safari 17', user:'alex@client.com', created:'12m ago' },
-        { issue:'Comment notifications delayed', user:'maya@label.io', created:'32m ago' },
-        { issue:'Folder rename permission mismatch', user:'ops@studio.fm', created:'58m ago' }
-      ];
-      const topProjects = [
-        { name:'Summer Vibes Final Mix', plays:412, comments:37 },
-        { name:'Episode 04 Jane Doe', plays:306, comments:22 },
-        { name:'Brand VO Selects', plays:188, comments:14 }
-      ];
-      const reviewComments = [
-        { id:'c1', author:'Alice Smith', role:'Editor', time:'00:24', body:'The intro narration feels half a beat early.', replies:[{author:'You', body:'Agreed — moving it two frames later.'}] },
-        { id:'c2', author:'Bob Johnson', role:'Reviewer', time:'01:30', body:'Can the background music duck slightly under this answer?', replies:[] },
-        { id:'c3', author:'Maya Patel', role:'Client', time:'02:44', body:'This final line lands well. Keep this energy for the outro.', replies:[{author:'You', body:'Keeping this take and trimming breaths.'}] }
-      ];
-      const reviewCollaborators = [
-        { name:'Alice Smith', email:'alice@example.com', role:'editor' },
-        { name:'Bob Johnson', email:'bob@example.com', role:'reviewer' },
-        { name:'Maya Patel', email:'maya@example.com', role:'client' }
-      ];
-      const reviewUploads = [
-        { file:'episode-04-v2.wav', status:'processed' },
-        { file:'music-bed-alt.mp3', status:'pending' },
-        { file:'guest-cleanup.aiff', status:'processed' }
-      ];
-      const tracks = [
-        { title:'Interview with Jane Doe', status:'approved', comments:12 },
-        { title:'Cold Open Alt', status:'needs review', comments:4 },
-        { title:'Outro Music Bed', status:'draft', comments:2 }
-      ];
-      const reviewFolders = [
-        { name:'Final selects', items:2 },
-        { name:'Alt takes', items:5 },
-        { name:'Client notes', items:3 }
-      ];
-
-      let selectedFolder = 'all';
-      function renderFolders() {
-        const list = document.getElementById('folderList');
-        list.innerHTML = folders.map(folder => `
-          <div class="folder ${selectedFolder===folder.id?'active':''}" data-folder="${folder.id}">
-            <div class="row"><span style="width:12px;height:12px;border-radius:999px;background:${folder.color};display:inline-block"></span><strong>${folder.name}</strong></div>
-            <span class="muted">${folder.count}</span>
-          </div>`).join('');
-        list.querySelectorAll('[data-folder]').forEach(el => el.onclick = () => { selectedFolder = el.dataset.folder; renderFolders(); renderProjects(); });
-      }
-      function badge(status) {
-        const map = { approved:'green', 'in-progress':'blue', draft:'muted', 'needs-review':'yellow', archived:'red' };
-        return `<span class="badge ${map[status]||''}">${status}</span>`;
-      }
-      function renderProjects() {
-        const q = document.getElementById('projectSearch').value.toLowerCase();
-        const type = document.getElementById('typeFilter').value;
-        const status = document.getElementById('statusFilter').value;
-        const filtered = projects.filter(p => (selectedFolder==='all'||p.folder===selectedFolder) && (type==='all'||p.type===type) && (status==='all'||p.status===status) && p.title.toLowerCase().includes(q));
-        document.getElementById('projectList').innerHTML = filtered.map((p,i) => `
-          <div class="project">
-            <div>
-              <div class="row" style="justify-content:space-between;"><h3 style="margin:0">${p.title}</h3>${badge(p.status)}</div>
-              <div class="project-meta muted"><span>${p.type}</span><span>•</span><span>${p.duration}</span><span>•</span><span>${p.comments} comments</span><span>•</span><span>${p.plays} plays</span></div>
-              <div class="row" style="margin-top:12px;">${p.collaborators.map(a=>`<span class="avatar">${a}</span>`).join('')}</div>
-            </div>
-            <div class="toolbar"><button class="btn small" data-screen-jump="review">Open</button><button class="btn small" data-edit-project="${i}">Edit</button></div>
-          </div>`).join('');
-        document.querySelectorAll('[data-edit-project]').forEach(btn => btn.onclick = () => openProjectModal(projects[btn.dataset.editProject]));
-        document.querySelectorAll('[data-screen-jump]').forEach(btn => btn.onclick = () => showScreen(btn.dataset.screenJump));
-      }
-      function renderCommentLists() {
-        document.getElementById('myComments').innerHTML = comments.filter(c=>c.author==='You').map(c => `<div class="comment"><div class="row" style="justify-content:space-between;"><strong>${c.project}</strong><span class="muted">${c.time}</span></div><p>${c.body}</p></div>`).join('');
-        document.getElementById('teamComments').innerHTML = comments.filter(c=>c.author!=='You').map(c => `<div class="comment"><div class="row" style="justify-content:space-between;"><strong>${c.author}</strong><span class="muted">${c.time}</span></div><div class="muted" style="font-size:13px; margin:4px 0 8px;">${c.project}</div><p>${c.body}</p></div>`).join('');
-      }
-      function renderAdmin() {
-        document.getElementById('activityList').innerHTML = adminActivity.map(item => `<div class="activity-item">${item}</div>`).join('');
-        document.getElementById('metricCards').innerHTML = metricCards.map(m => `<div class="ticket"><div class="muted">${m.label}</div><div class="stat" style="font-size:26px">${m.value}</div><div class="muted">Target: ${m.target}</div></div>`).join('');
-        document.getElementById('ticketList').innerHTML = tickets.map(t => `<div class="ticket"><strong>${t.issue}</strong><div class="muted">by ${t.user} • ${t.created}</div></div>`).join('');
-        document.getElementById('topProjects').innerHTML = topProjects.map(p => `<div class="ticket"><div class="row" style="justify-content:space-between;"><strong>${p.name}</strong><span>${p.plays} plays</span></div><div class="muted">${p.comments} comments this week</div></div>`).join('');
-      }
-      function renderReviewTracks() {
-        document.getElementById('trackList').innerHTML = tracks.map((t,i) => `<div class="track"><div class="row" style="justify-content:space-between;"><strong>${t.title}</strong><span class="badge">${t.status}</span></div><div class="muted">${t.comments} comments</div><div class="toolbar" style="margin-top:10px;"><button class="btn small" data-track-play="${i}">Play</button><button class="btn small">Rename</button></div></div>`).join('');
-        document.querySelectorAll('[data-track-play]').forEach(btn => btn.onclick = () => { document.getElementById('reviewTime').textContent = '00:00 / 03:42'; });
-      }
-      function renderReviewFolders() {
-        document.getElementById('reviewFolderList').innerHTML = reviewFolders.map(f => `<div class="track"><div class="row" style="justify-content:space-between;"><strong>${f.name}</strong><span>${f.items}</span></div></div>`).join('');
-      }
-      function renderReviewPanel(tab='comments') {
-        document.querySelectorAll('[data-review-tab]').forEach(btn => btn.classList.toggle('active', btn.dataset.reviewTab===tab));
-        const panel = document.getElementById('reviewPanel');
-        if (tab==='comments') {
-          panel.innerHTML = `<div class="comments-list">${reviewComments.map(c => `<div class="comment"><div class="row" style="justify-content:space-between;"><div><strong>${c.author}</strong> <span class="muted">${c.role}</span></div><span class="badge">${c.time}</span></div><p>${c.body}</p><div class="toolbar"><button class="btn small">Reply</button><button class="btn small">Edit</button><button class="btn small">Like</button></div>${c.replies.map(r => `<div style="margin-top:10px; padding:10px 12px; border-radius:14px; background:rgba(255,255,255,.04)"><strong>${r.author}</strong><div class="muted">${r.body}</div></div>`).join('')}</div>`).join('')}</div>`;
-        } else if (tab==='collaborators') {
-          panel.innerHTML = `<div class="tracks">${reviewCollaborators.map(c => `<div class="track"><div class="row" style="justify-content:space-between;"><strong>${c.name}</strong><span class="badge">${c.role}</span></div><div class="muted">${c.email}</div><div class="toolbar" style="margin-top:10px;"><button class="btn small">Change role</button><button class="btn small">Remove</button></div></div>`).join('')}</div>`;
-        } else {
-          panel.innerHTML = `<div class="tracks">${reviewUploads.map(u => `<div class="track"><div class="row" style="justify-content:space-between;"><strong>${u.file}</strong><span class="badge">${u.status}</span></div><div class="progress" style="margin-top:10px;"><span style="width:${u.status==='processed'?'100':'63'}%"></span></div></div>`).join('')}</div>`;
-        }
-      }
-
-      function openModal(title, bodyHTML) {
-        document.getElementById('modalTitle').textContent = title;
-        document.getElementById('modalBody').innerHTML = bodyHTML;
-        document.getElementById('modal').classList.add('show');
-      }
-      function closeModal() { document.getElementById('modal').classList.remove('show'); }
-      document.getElementById('closeModal').onclick = closeModal;
-      document.getElementById('modal').addEventListener('click', e => { if (e.target.id==='modal') closeModal(); });
-
-      function openProjectModal(project) {
-        openModal('Edit project', `
-          <input class="input" value="${project.title}" />
-          <select class="select"><option selected>${project.type}</option><option>music</option><option>podcast</option><option>voice-over</option><option>sound-design</option></select>
-          <textarea class="textarea">Prototype edit flow for ${project.title}.</textarea>
-          <div class="toolbar"><button class="btn primary" onclick="closeModal()">Save changes</button><button class="btn" onclick="closeModal()">Duplicate</button></div>
-        `);
-      }
-      document.getElementById('newProjectBtn').onclick = () => openModal('Create project', `
-        <input class="input" placeholder="Project title" value="New branded campaign" />
-        <select class="select"><option>music</option><option>podcast</option><option>voice-over</option><option>sound-design</option></select>
-        <textarea class="textarea" placeholder="Description">This mirrors the dashboard's new project modal flow.[file:122]</textarea>
-        <button class="btn primary" onclick="closeModal()">Create project</button>
-      `);
-      document.getElementById('newFolderBtn').onclick = () => openModal('Create folder', `
-        <input class="input" placeholder="Folder name" value="Q3 Campaigns" />
-        <select class="select"><option>Blue</option><option>Purple</option><option>Green</option><option>Amber</option></select>
-        <button class="btn primary" onclick="closeModal()">Save folder</button>
-      `);
-      document.getElementById('addCommentBtn').onclick = () => openModal('Add timestamped comment', `
-        <div class="badge">Timestamp 00:58</div>
-        <textarea class="textarea" placeholder="Leave review feedback">The vocal consonants here feel a little sharp. Can we soften them?</textarea>
-        <button class="btn primary" onclick="closeModal()">Post comment</button>
-      `);
-      document.getElementById('addTrackBtn').onclick = () => openModal('Upload audio track', `
-        <input class="input" value="cold-open-v3.wav" />
-        <div class="progress"><span style="width:63%"></span></div>
-        <div class="muted">Simulated upload behavior inspired by the attached upload route.[file:124]</div>
-        <button class="btn primary" onclick="closeModal()">Attach track</button>
-      `);
-      document.getElementById('addReviewFolderBtn').onclick = () => openModal('New review folder', `
-        <input class="input" value="Client callbacks" />
-        <button class="btn primary" onclick="closeModal()">Create folder</button>
-      `);
-      document.querySelectorAll('[data-review-tab]').forEach(btn => btn.onclick = () => renderReviewPanel(btn.dataset.reviewTab));
-      document.querySelectorAll('[data-screen-target]').forEach(btn => btn.onclick = () => showScreen(btn.dataset.screenTarget));
-      document.querySelectorAll('[data-screen-jump]').forEach(btn => btn.onclick = () => showScreen(btn.dataset.screenJump));
-      function showScreen(name) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('screen-' + name).classList.add('active');
-        document.querySelectorAll('[data-screen-target]').forEach(b => b.classList.toggle('active', b.dataset.screenTarget===name));
-      }
-      document.getElementById('projectSearch').addEventListener('input', renderProjects);
-      document.getElementById('typeFilter').addEventListener('change', renderProjects);
-      document.getElementById('statusFilter').addEventListener('change', renderProjects);
-      document.getElementById('clearFilters').onclick = () => {
-        selectedFolder = 'all';
-        document.getElementById('projectSearch').value = '';
-        document.getElementById('typeFilter').value = 'all';
-        document.getElementById('statusFilter').value = 'all';
-        renderFolders(); renderProjects();
-      };
-
-      let heroPlaying = false, heroPos = 26;
-      document.getElementById('heroPlay').onclick = () => { heroPlaying = !heroPlaying; document.getElementById('heroPlay').innerHTML = heroPlaying ? '&#10074;&#10074;' : '&#9654;'; };
-      setInterval(() => { if (!heroPlaying) return; heroPos = (heroPos + 1) % 100; document.getElementById('heroProgress').style.width = heroPos + '%'; document.getElementById('heroTime').textContent = `0${Math.floor(heroPos/20)}:${String((heroPos*2)%60).padStart(2,'0')} / 03:48`; }, 700);
-
-      let reviewPlaying = false, reviewPos = 26;
-      document.getElementById('reviewPlay').onclick = () => { reviewPlaying = !reviewPlaying; document.getElementById('reviewPlay').innerHTML = reviewPlaying ? '&#10074;&#10074;' : '&#9654;'; };
-      setInterval(() => { if (!reviewPlaying) return; reviewPos = (reviewPos + 0.9) % 100; document.getElementById('reviewProgress').style.width = reviewPos + '%'; document.getElementById('playhead').style.left = reviewPos + '%'; document.getElementById('reviewTime').textContent = `0${Math.floor(reviewPos/18)}:${String((reviewPos*2)%60).padStart(2,'0')} / 03:42`; }, 700);
-      document.getElementById('reviewTimeline').onclick = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        reviewPos = ((e.clientX - rect.left) / rect.width) * 100;
-        document.getElementById('reviewProgress').style.width = reviewPos + '%';
-        document.getElementById('playhead').style.left = reviewPos + '%';
-      };
-
-      renderFolders(); renderProjects(); renderCommentLists(); renderAdmin(); renderReviewTracks(); renderReviewFolders(); renderReviewPanel();
-    </script>
-  </body>
+    <div class="grid-3 section-gap">
+      <div class="card feature"><h3>Timestamped Comments</h3><p class="muted">Click anywhere on the waveform to leave a note so the team knows the exact moment being referenced.[file:119]</p></div>
+      <div class="card feature"><h3>Client Review Links</h3><p class="muted">Send a secure link so clients can listen and comment without creating an account.[file:119]</p></div>
+      <div class="card feature"><h3>Version Control</h3><p class="muted">Stack new versions on top of old ones while keeping earlier discussion attached.[file:119]</p></div>
+    </div>
+  </main>
+</div>
+<script src="./assets/app.js"></script>
+<script>
+fillWave(document.getElementById('landingWave'), 52);
+let landingPlaying = false, landingPos = 24;
+document.getElementById('landingPlay').onclick = () => { landingPlaying = !landingPlaying; document.getElementById('landingPlay').innerHTML = landingPlaying ? '&#10074;&#10074;' : '&#9654;'; };
+setInterval(() => { if (!landingPlaying) return; landingPos = (landingPos + 1.2) % 100; document.getElementById('landingFill').style.width = landingPos + '%'; document.getElementById('landingTime').textContent = `0${Math.floor(landingPos/20)}:${String((landingPos*2)%60).padStart(2,'0')} / 03:48`; }, 700);
+</script>
+</body>
 </html>
